@@ -11,18 +11,16 @@ d3.json(queryUrl).then(function(data) {
 
 // Function to create features on the map
 function createFeatures(meteoriteData) {
-    // Filter and process the meteorite data based on the fall date
-    let filteredMeteorites = meteoriteData.filter(meteorite => meteorite[12] === "Fell")
+    // Filter and sort the meteorite data based on the fall status being "Found"
+    let filteredMeteorites = meteoriteData.filter(meteorite => meteorite[13] === "Found")
         .map(meteorite => {
-            // Extract coordinates from the GeoLocation field if available
-            let geoLocation = meteorite[14] ? meteorite[14].replace(/[()]/g, "").split(", ") : [0, 0];
             return {
                 name: meteorite[8], // Meteorite name
-                mass: meteorite[11], // Mass in grams
+                mass: meteorite[11], // Mass in grams 
                 fall: meteorite[12], // Fall status
-                year: new Date(meteorite[13]), // Convert string to Date object
-                longitude: parseFloat(geoLocation[1]), // Longitude from GeoLocation
-                latitude: parseFloat(geoLocation[0]) // Latitude from GeoLocation
+                year: new Date(meteorite[14]), // Convert string to Date object for the found date
+                longitude: parseFloat(meteorite[16]), // Longitude
+                latitude: parseFloat(meteorite[15]) // Latitude
             };
         })
         .sort((a, b) => b.year - a.year) // Sort by year (most recent first)
@@ -33,7 +31,7 @@ function createFeatures(meteoriteData) {
     // Create markers for meteorites
     let meteoriteMarkers = filteredMeteorites.map(meteorite => {
         return L.marker([meteorite.latitude, meteorite.longitude])
-            .bindPopup(`<h3>${meteorite.name}</h3><hr><p>Mass: ${meteorite.mass} grams<br>Year: ${meteorite.year.toLocaleDateString()}</p>`);
+            .bindPopup(`<h3>${meteorite.name}</h3><hr><p>Mass: ${meteorite.mass} grams<br>Date Found: ${meteorite.year.toLocaleDateString()}</p>`);
     });
 
     // Create a layer group made from the meteorite markers array
