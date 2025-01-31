@@ -3,18 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteorite Histogram by Year</title>
+    <title>Meteorite Falls Per Year</title>
+    
+    <!-- Load Plotly and D3.js -->
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Basic styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        #chart {
+            width: 90%;
+            max-width: 1200px;
+            height: 600px;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
 
-    <h2 style="text-align: center;">Meteorite Falls Per Year</h2>
-    <div id="chart" style="width: 100%; height: 600px;"></div>
+    <h2><b>Meteorite Falls Per Year</b></h2>
+    <p>Hover over the bars to see the exact year and meteorite count.</p>
+    <div id="chart"></div>
 
-    <!-- Link to external JavaScript file -->
+    <!-- Load the JavaScript file -->
     <script src="script.js"></script>
 
 </body>
 </html>
+
 
