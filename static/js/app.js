@@ -1,98 +1,90 @@
-let queryUrl = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
+const url = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
 
-// Perform a GET request to the query URL
-d3.json(queryUrl).then(function(data) {
-    console.log("Data fetched successfully:", data); // Log the fetched data
-    createFeatures(data.data); // Access the rows in the "data" array
-}).catch(error => {
-    console.error("Error fetching data:", error);
-});
+// Fetch and process the data
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        // Extract the rows of data
+        const rows = data.data;
 
-// Function to create features on the map
-function createFeatures(meteoriteData) {
-    // Filter and sort the meteorite data based on the fall status being "Found"
-    let filteredMeteorites = meteoriteData.filter(meteorite => meteorite[13] === "Found")
-        .map(meteorite => {
-            return {
-                name: meteorite[8], // Meteorite name
-                mass: meteorite[12], // Mass in grams 
-                year: new Date(meteorite[14]), // Convert string to Date object for the found date
-                
-            };
-        })
-        .sort((a, b) => b.year - a.year) // Sort by year (most recent first)
-        .slice(0, 10); // Limit to the last 300 meteorites
+        console.log(rows);
 
-    console.log("Filtered Meteorites:", filteredMeteorites); // Log the filtered meteorites
+        // Extract years from the dataset (assuming date is at index 14)
+        const years = [...new Set(rows.map(row => {
+            const date = new Date(row[14]);
+            return date instanceof Date && !isNaN(date) ? date.getFullYear() : null;
+        }).filter(year => year !== null))];
 
+        console.log('Years:', years);
 
-    // Build a Bubble Chart
-    const bubbleTrace = {
-      x: name,
-      y: mass,
-      text: "Meteorite Mass",
-      mode: 'markers',
-      marker: {
-        size: mass,
-        color: name,
-        colorscale: 'Earth'
-      }
-    };
+        // You can dynamically populate a dropdown or manually set a year
+         
+        const selectedYear = years[200]; // For example, take the first year
 
-    // Render the Bubble Chart
+        // Filter meteorites based on selected year
+        const filteredRows = rows.filter(row => new Date(row[14]).getFullYear() === selectedYear);
 
-    const bubbleData = [bubbleTrace];
-    
-    const bubbleLayout = {
-      title: 'Meteorites Mass per Year',
-      xaxis: { title: 'Year' },
-      yaxis: { title: 'Mass' },
-      hovermode: 'largest'
-    };
+        // Sort meteorites by mass (assuming mass is at index 12) and get the top 10
+        const biggestMeteorites = filteredRows
+            .map(row => ({
+                name: row[8], // Assuming the name is at index 8
+                mass: parseFloat(row[12]) // Assuming the mass is at index 12
+            }))
+            .filter(meteorite => !isNaN(meteorite.mass)) // Ensure valid mass values
+            .sort((a, b) => b.mass - a.mass) // Sort by mass in descending order
+            .slice(0, 10); // Get the top 10 biggest meteorites
 
-    Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+        console.log('Top 10 biggest meteorites:', biggestMeteorites);
 
-};
+        // Prepare data for the bubble chart
+        const nameValues = biggestMeteorites.map(meteorite => meteorite.name);
+        const massValues = biggestMeteorites.map(meteorite => meteorite.mass);
 
+        const colorScale = 'Earth'; // Choose a color scale
+        const colors = massValues; // Map mass values directly to color scale
+        
+        // Create the bubble chart trace
+        const trace = {
+          x: nameValues, // Names on the x-axis
+          y: massValues, // Mass on the y-axis
+          text: nameValues, // Tooltip text
+          mode: 'markers',
+          marker: {
+              size: massValues.map(mass => {
+                  // Use logarithm to scale mass values for better visualization
+                  return mass ? Math.log(mass) * 10 : 0; // Multiply by 10 to scale the sizes
+              }),
+              color: colors, // Use mass values for color
+              colorscale: colorScale, // Apply the color scale
+              //colorbar: { title: 'Mass (g)' }, // Add color bar to indicate scale
+              opacity: 0.6,
+              line: {
+                  width: 0.5,
+                  color: 'earth'
+              }
+          }
+      };
 
+        // Data for the chart
+        const chartData = [trace];
 
+        // Layout configuration for the bubble chart
+        const layout = {
+            title: `Bubble Chart of Meteorites (Year: ${selectedYear})`,
+            xaxis: {
+                title: 'Meteorite Names',
+                tickangle: -45 // Rotate x-axis labels for better visibility
+            },
+            yaxis: {
+                title: 'Mass (g)'
+            },
+            showlegend: false
+        };
 
+        // Render the plot to the div with id "bubble"
+        Plotly.newPlot('bubble', chartData, layout);
+    })
+    .catch(error => console.error('Error fetching data:', error));
 
-// Function to run on page load
-function init() {
-  d3.json(queryUrl).then((data) => {
+    const yearSelect = document.getElementById('year-select');
 
-    // Get the names field
-    const sNames = data.names;
-
-    // Use d3 to select the dropdown with id of `#selDataset`
-    const dropdown = d3.select("#selDataset");
-
-    // Use the list of sample names to populate the select options
-    // Hint: Inside a loop, you will need to use d3 to append a new
-    // option for each sample name.
-    sNames.forEach((sample) => {
-      dropdown.append("option").text(sample).property("value", sample);
-    });
-
-    // Get the first sample from the list
-    const firstSample = sNames[0];
-    console.log(firstSample)
-    // Build charts and metadata panel with the first sample
-    buildCharts(firstSample);
-    buildMetadata(firstSample);
-
-  });
-}
-
-// Function for event listener
-function optionChanged(newSample) {
-  // Build charts and metadata panel each time a new sample is selected
-
-  buildCharts(newSample);
-  buildMetadata(newSample);
-
-}
-
-// Initialize the dashboard
-init();

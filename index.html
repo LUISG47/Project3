@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Bellybutton Biodiversity</title>
+  <title>Meteorites around the world</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
@@ -14,23 +15,31 @@
   <div class="container">
     <div class="row" style="background-color: rgb(23, 11, 58);">
       <div class="col-md-20 p-10 text-center"  style="color: rgb(240, 233, 233);" >
-        <h1>Meteorite Information Years (1900-2023) </h1>
+        <h1>Meteorite Information Years (1800-2023) </h1>
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
     <br>
+
     <div class="row">
       <div class="col-md-3">
         <div class="card card-body bg-light">
-          <h6>Test Subject ID Number:</h6>
+          <h6>Meteorite name:</h6>
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
         </div>
+         <!-- Dropdown for Year Selection -->
+    <label for="year-select">Select Year:</label>
+    <select id="year-select">
+        <!-- Options will be populated dynamically -->
+    </select>
+      
+      <div id="biggest-meteorites"></div>
         <br>
         <div class="card card-primary">
           <div class="card-header" style="background-color: rgb(113, 71, 199);">
             <h4 class="card-title" style="color: white;" >Meteorite Info</h4>
           </div>
-          <div id= "sample-metadata" class="card-body" ></div>
+          <div id= "nameValues" class="card-body" ></div>
         </div>
       </div>
       <div class="col-md-9">
@@ -39,7 +48,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div id="bubble"></div>
+        <div id="bubble" style="width: 100%; height: 100%;"></div>
       </div>
     </div>
   </div>

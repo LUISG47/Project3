@@ -1,0 +1,10 @@
+
+body {
+    background-image: url('/Users/miguela.olmos/Downloads/meteorite.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the background image */
+    color: white; /* Change text color for better visibility */
+    font-family: Arial, sans-serif; /* Set a font for the text */
+    text-align: center; /* Center the text */
+    padding: 50px; /* Add some padding */
+}
