@@ -24,15 +24,10 @@
     <div class="row">
       <div class="col-md-3">
         <div class="card card-body bg-light">
-          <h6>Meteorite name:</h6>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+          <h6>Select Year:</h6>
+          <select id="year-select" onchange="optionChanged(this.value)"></select>
         </div>
-         <!-- Dropdown for Year Selection -->
-    <label for="year-select">Select Year:</label>
-    <select id="year-select">
-        <!-- Options will be populated dynamically -->
-    </select>
-      
+  
       <div id="biggest-meteorites"></div>
         <br>
         <div class="card card-primary">
@@ -48,7 +43,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <div id="bubble" style="width: 100%; height: 100%;"></div>
+        <div id="bubble" style="width: 100%; height: 200%;"></div>
       </div>
     </div>
   </div>
