@@ -24,7 +24,7 @@ function createFeatures(meteoriteData) {
             };
         })
         .sort((a, b) => b.year - a.year) // Sort by year (most recent first)
-        .slice(0, 300); // Limit to the last 300 meteorites
+        .slice(0, 2000); // Limit to the last 300 meteorites
 
     console.log("Filtered Meteorites:", filteredMeteorites); // Log the filtered meteorites
 
@@ -53,10 +53,20 @@ function createMap(meteorites) {
         attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
     });
 
+    let darkMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+
+    let lightMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+
     // Create a baseMaps object
     let baseMaps = {
         "Street Map": street,
-        "Topographic Map": topo
+        "Topographic Map": topo,
+        "Dark Map": darkMap,
+        "Light Map": lightMap
     };
 
     // Create an overlay object to hold our meteorites layer
@@ -72,7 +82,5 @@ function createMap(meteorites) {
     });
 
     // Create a layer control
-    L.control.layers(baseMaps, overlayMaps, {
-        collapsed: false // Expanded control by default
-    }).addTo(myMap);
+    L.control.layers(baseMaps, overlayMaps).addTo(myMap);
 }
