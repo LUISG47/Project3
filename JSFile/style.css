@@ -4,13 +4,19 @@ body {
   margin: 0;
 }
 
-/* Set the map to fill the height of the viewport */
+/* Set the map to fill the height of the viewport minus the height of the selector */
 #map {
-  height: 100vh; /* Full height of the viewport */
+  height: calc(100vh - 50px); /* Full height of the viewport minus space for the dropdown */
 }
 
 /* Set html and body to 100% to ensure the map container functions effectively */
 body,
 html {
   height: 100%; /* Ensure body and HTML allow content to fill full height */
+}
+
+/* Style for the dropdown menu */
+#region-selector {
+  padding: 5px;
+  font-size: 16px;
 }

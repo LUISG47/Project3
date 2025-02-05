@@ -23,8 +23,22 @@
 </head>
 
 <body>
+  <!-- Dropdown selector for region -->
+  <div style="margin: 10px;">
+    <label for="region-selector">Select a Region:</label>
+    <select id="region-selector">
+      <option value="">All Regions</option>
+      <option value="USA">USA</option>
+      <option value="Mexico">Mexico</option>
+      <option value="Europe">Europe</option>
+      <option value="Asia">Asia</option>
+      <option value="Africa">Africa</option>
+      <option value="SouthAmerica">South America</option>
+    </select>
+  </div>
+
   <!-- The div where we'll insert our map -->
-  <div id="map" style="height: 100vh;"></div> <!-- Added style for height -->
+  <div id="map" style="height: 90vh;"></div> <!-- Adjusted height for the selector -->
 
   <!-- JavaScript file -->
   <script type="text/javascript" src="logic.js"></script>

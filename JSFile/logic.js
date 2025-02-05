@@ -9,10 +9,45 @@ d3.json(queryUrl).then(function(data) {
     console.error("Error fetching data:", error);
 });
 
+// Function to determine the region of the meteorite based on coordinates
+function getRegionByCoordinates(meteorite) {
+    const latitude = parseFloat(meteorite[15]);
+    const longitude = parseFloat(meteorite[16]);
+
+    // Define regions based on rough geographical areas
+    if (latitude >= 24.396308 && latitude <= 49.384358 && longitude >= -125.0 && longitude <= -66.93457) {
+        return "USA";  // Approx. bounds for the USA
+    }
+    if (latitude >= 14.533333 && latitude <= 32.0 && longitude >= -118.0 && longitude <= -86.0) {
+        return "Mexico"; // Approx. bounds for Mexico
+    }
+    if (latitude >= 36 && latitude <= 71 && longitude >= -25 && longitude <= 45) {
+        return "Europe"; // Rough bounds for Europe
+    }
+    if (latitude >= 1 && latitude <= 80 && longitude >= 60 && longitude <= 180) {
+        return "Asia"; // Rough bounds for Asia
+    }
+    if (latitude >= -35 && latitude <= 37 && longitude >= 25 && longitude <= 60) {
+        return "Africa"; // Approx. bounds for Africa
+    }
+    if (latitude >= -60 && latitude <= 15 && longitude >= -80 && longitude <= -35) {
+        return "SouthAmerica"; // Rough bounds for South America
+    }
+
+    return ""; // Default for countries and regions not listed
+}
+
 // Function to create features on the map
 function createFeatures(meteoriteData) {
-    // Filter and sort the meteorite data based on the fall status being "Found"
-    let filteredMeteorites = meteoriteData.filter(meteorite => meteorite[13] === "Found")
+    let filteredMeteorites = [];
+
+    // Function to filter meteorites based on the selected region
+    function filterMeteorites(selectedRegion) {
+        filteredMeteorites = meteoriteData.filter(meteorite => {
+            const isFound = meteorite[13] === "Found";
+            const isInRegion = getRegionByCoordinates(meteorite);
+            return isFound && (selectedRegion === "" || isInRegion === selectedRegion);
+        })
         .map(meteorite => {
             return {
                 name: meteorite[8], // Meteorite name
@@ -24,21 +59,31 @@ function createFeatures(meteoriteData) {
             };
         })
         .sort((a, b) => b.year - a.year) // Sort by year (most recent first)
-        .slice(0, 2000); // Limit to the last 300 meteorites
+        .slice(0, 2000); // Limit to the last 2000 meteorites
 
-    console.log("Filtered Meteorites:", filteredMeteorites); // Log the filtered meteorites
+        console.log("Filtered Meteorites:", filteredMeteorites); // Log the filtered meteorites
 
-    // Create markers for meteorites
-    let meteoriteMarkers = filteredMeteorites.map(meteorite => {
-        return L.marker([meteorite.latitude, meteorite.longitude])
-            .bindPopup(`<h3>${meteorite.name}</h3><hr><p>Mass: ${meteorite.mass} grams<br>Date Found: ${meteorite.year.toLocaleDateString()}</p>`);
+        // Create markers for the filtered meteorites
+        let meteoriteMarkers = filteredMeteorites.map(meteorite => {
+            return L.marker([meteorite.latitude, meteorite.longitude])
+                .bindPopup(`<h3>${meteorite.name}</h3><hr><p>Mass: ${meteorite.mass} grams<br>Date Found: ${meteorite.year.toLocaleDateString()}</p>`);
+        });
+
+        // Create a layer group made from the meteorite markers array
+        let meteoriteLayerGroup = L.layerGroup(meteoriteMarkers);
+        
+        // Create or update the map with the filtered meteorites
+        createMap(meteoriteLayerGroup);
+    }
+
+    // Add event listener for the dropdown menu
+    document.getElementById('region-selector').addEventListener('change', function() {
+        const selectedRegion = this.value;
+        filterMeteorites(selectedRegion);
     });
 
-    // Create a layer group made from the meteorite markers array
-    let meteoriteLayerGroup = L.layerGroup(meteoriteMarkers);
-    
-    // Send our meteorites layer to the createMap function
-    createMap(meteoriteLayerGroup);
+    // Initial load: display all found meteorites
+    filterMeteorites("");
 }
 
 // Create the map
