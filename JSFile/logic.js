@@ -86,8 +86,16 @@ function createFeatures(meteoriteData) {
     filterMeteorites("");
 }
 
+// Variable global para el mapa
+let myMap;
+
 // Create the map
 function createMap(meteorites) {
+    // Elimina el mapa existente si ya ha sido inicializado
+    if (myMap) {
+        myMap.remove(); // Elimina el mapa existente
+    }
+
     // Create the base layers
     let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -119,8 +127,8 @@ function createMap(meteorites) {
         Meteorites: meteorites // Reference to the meteorites layer
     };
 
-    // Create our map, giving it the streetmap and meteorites layers to display on load
-    let myMap = L.map("map", {
+    // Ahora crea el mapa solo si no existe
+    myMap = L.map("map", {
         center: [20.0, 0.0], // Center the map on a global view
         zoom: 2, // Start with a zoom level that shows the world
         layers: [street, meteorites] // Add the initial layers
