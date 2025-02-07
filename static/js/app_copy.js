@@ -53,7 +53,7 @@ fetch(url)
                 }))
                 .filter(meteorite => !isNaN(meteorite.mass)) // Ensure valid mass values
                 .sort((a, b) => b.mass - a.mass) // Sort by mass (descending order)
-                .slice(0, 10); // Top 10 biggest meteorites
+                .slice(0, 25); // Top 10 biggest meteorites
 
             console.log('Top 10 biggest meteorites for year', selectedYear, biggestMeteorites);
 
