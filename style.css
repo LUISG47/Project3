@@ -1,0 +1,28 @@
+/* Remove the default margin and padding from the body. */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Ensure the html and body fill full height */
+html,
+body {
+  height: 100%; /* This ensures body and HTML allow content to fill full height */
+}
+
+/* Set the map to fill the full height of the viewport */
+#map {
+  height: 100vh; /* Full height of the viewport */
+  width: 100%; /* Ensure the map takes the full width */
+  margin: 0; /* Reset margin */
+}
+
+/* Style for the dropdown menu */
+#region-selector {
+  padding: 5px;
+  font-size: 16px;
+  position: absolute; /* Position the dropdown */
+  top: 10px; /* Adjust if you want it lower */
+  left: 10px; /* Position it on the left */
+  z-index: 1000; /* Ensure it’s above everything else */
+}
