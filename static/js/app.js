@@ -9,82 +9,99 @@ fetch(url)
 
         console.log(rows);
 
-        // Extract years from the dataset (assuming date is at index 14)
-        const years = [...new Set(rows.map(row => {
+        // Count how many meteorites exist for each year
+        const yearCounts = rows.reduce((acc, row) => {
             const date = new Date(row[14]);
-            return date instanceof Date && !isNaN(date) ? date.getFullYear() : null;
-        }).filter(year => year !== null))];
+            const year = date.getFullYear();
+            if (!isNaN(year)) {
+                acc[year] = (acc[year] || 0) + 1;
+            }
+            return acc;
+        }, {});
 
-        console.log('Years:', years);
+        // Extract years that have meteorites (exclude years with 0 meteorites)
+        const years = Object.keys(yearCounts).filter(year => yearCounts[year] > 0).sort((a, b) => a - b);
 
-        // You can dynamically populate a dropdown or manually set a year
-         
-        const selectedYear = years[200]; // For example, take the first year
+        console.log('Available Years with data:', years);
 
-        // Filter meteorites based on selected year
-        const filteredRows = rows.filter(row => new Date(row[14]).getFullYear() === selectedYear);
+        // Create year dropdown dynamically
+        const yearDropdown = document.createElement("select");
+        yearDropdown.id = "yearSelector";
+        yearDropdown.classList.add('form-select', 'mb-3');
 
-        // Sort meteorites by mass (assuming mass is at index 12) and get the top 10
-        const biggestMeteorites = filteredRows
-            .map(row => ({
-                name: row[8], // Assuming the name is at index 8
-                mass: parseFloat(row[12]) // Assuming the mass is at index 12
-            }))
-            .filter(meteorite => !isNaN(meteorite.mass)) // Ensure valid mass values
-            .sort((a, b) => b.mass - a.mass) // Sort by mass in descending order
-            .slice(0, 10); // Get the top 10 biggest meteorites
+        years.forEach(year => {
+            let option = document.createElement("option");
+            option.value = year;
+            option.textContent = year;
+            yearDropdown.appendChild(option);
+        });
 
-        console.log('Top 10 biggest meteorites:', biggestMeteorites);
+        const meteoriteCardBody = document.querySelector('.card-body'); // This targets the card body
+        meteoriteCardBody.insertBefore(yearDropdown, meteoriteCardBody.querySelector('#biggest-meteorites'));
 
-        // Prepare data for the bubble chart
-        const nameValues = biggestMeteorites.map(meteorite => meteorite.name);
-        const massValues = biggestMeteorites.map(meteorite => meteorite.mass);
+        // Function to update the chart based on the selected year
+        function updateChart(selectedYear) {
+            const filteredRows = rows.filter(row => new Date(row[14]).getFullYear() === parseInt(selectedYear));
 
-        const colorScale = 'Earth'; // Choose a color scale
-        const colors = massValues; // Map mass values directly to color scale
-        
-        // Create the bubble chart trace
-        const trace = {
-          x: nameValues, // Names on the x-axis
-          y: massValues, // Mass on the y-axis
-          text: nameValues, // Tooltip text
-          mode: 'markers',
-          marker: {
-              size: massValues.map(mass => {
-                  // Use logarithm to scale mass values for better visualization
-                  return mass ? Math.log(mass) * 10 : 0; // Multiply by 10 to scale the sizes
-              }),
-              color: colors, // Use mass values for color
-              colorscale: colorScale, // Apply the color scale
-              //colorbar: { title: 'Mass (g)' }, // Add color bar to indicate scale
-              opacity: 0.6,
-              line: {
-                  width: 0.5,
-                  color: 'earth'
-              }
-          }
-      };
+            // Sort meteorites by mass and get the top 10
+            const biggestMeteorites = filteredRows
+                .map(row => ({
+                    name: row[8], // Meteorite name
+                    mass: parseFloat(row[12]), // Mass value
+                    locationLat: row[15], // Location Latitude (row[15])
+                    locationLong: row[16] // Location Longitude (row[16])
+                }))
+                .filter(meteorite => !isNaN(meteorite.mass)) // Ensure valid mass values
+                .sort((a, b) => b.mass - a.mass) // Sort by mass (descending order)
+                .slice(0, 25); // Top 10 biggest meteorites
 
-        // Data for the chart
-        const chartData = [trace];
+            console.log('Top 10 biggest meteorites for year', selectedYear, biggestMeteorites);
 
-        // Layout configuration for the bubble chart
-        const layout = {
-            title: `Bubble Chart of Meteorites (Year: ${selectedYear})`,
-            xaxis: {
-                title: 'Meteorite Names',
-                tickangle: -45 // Rotate x-axis labels for better visibility
-            },
-            yaxis: {
-                title: 'Mass (g)'
-            },
-            showlegend: false
-        };
+            // Prepare data for the bubble chart
+            const nameValues = biggestMeteorites.map(meteorite => meteorite.name);
+            const massValues = biggestMeteorites.map(meteorite => meteorite.mass);
+            const locationValues = biggestMeteorites.map(meteorite => 
+                `Lat: ${meteorite.locationLat}, Long: ${meteorite.locationLong}`
+            );
 
-        // Render the plot to the div with id "bubble"
-        Plotly.newPlot('bubble', chartData, layout);
+            // Create the bubble chart trace
+            const trace = {
+                x: nameValues,
+                y: massValues,
+                text: locationValues, // Location information for hover
+                mode: 'markers',
+                marker: {
+                    size: massValues.map(mass => mass ? Math.log(mass) * 10 : 0), // Scale mass sizes
+                    color: massValues,
+                    colorscale: 'Earth',
+                    opacity: 0.6,
+                    line: { width: 0.5, color: 'black' }
+                },
+                hovertemplate: [
+                    '%{text}', // Display location (Lat/Long)
+                    'Mass: %{y}g', // Display mass in the y-axis
+                    '<extra></extra>', // Optional, remove extra info
+                ].join('<br>'),
+            };
+
+            // Chart layout
+            const layout = {
+                title: `Bubble Chart of Meteorites (Year: ${selectedYear})`,
+                xaxis: { title: 'Meteorite Names', tickangle: -45 },
+                yaxis: { title: 'Mass (g)' },
+                showlegend: false
+            };
+
+            // Render the chart
+            Plotly.newPlot('bubble', [trace], layout);
+        }
+
+        // Event listener to update the chart when the dropdown value changes
+        yearDropdown.addEventListener("change", function() {
+            updateChart(this.value);
+        });
+
+        // Initialize chart with the first available year
+        updateChart(years[0]);
     })
     .catch(error => console.error('Error fetching data:', error));
-
-    const yearSelect = document.getElementById('year-select');
-
