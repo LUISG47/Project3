@@ -13,44 +13,43 @@
 <body>
 
   <div class="container">
-    <div class="row" style="background-color: rgb(23, 11, 58);">
-      <div class="col-md-20 p-10 text-center"  style="color: rgb(240, 233, 233);" >
-        <h1>Meteorite Information Years (1800-2023) </h1>
+    <div class="row" style="background-color: rgb(44, 30, 7);">
+      <div class="col-md-12 p-10 text-center" style="color: rgb(240, 233, 233);">
+        <h1>Meteorite information around the world</h1>
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
     <br>
 
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="card card-body bg-light">
-          <h6>Select Year:</h6>
-          <select id="year-select" onchange="optionChanged(this.value)"></select>
-        </div>
-  
-      <div id="biggest-meteorites"></div>
-        <br>
-        <div class="card card-primary">
-          <div class="card-header" style="background-color: rgb(113, 71, 199);">
-            <h4 class="card-title" style="color: white;" >Meteorite Info</h4>
+          <div class="card-header" style="background-color: rgb(4, 44, 45);">
+            <h4 class="card-title" style="color: rgb(244, 241, 241);">10 biggest meteorites by year:</h4>
           </div>
-          <div id= "nameValues" class="card-body" ></div>
+          <!-- Dropdown selector for years inside the card body -->
+          <select id="yearSelector" class="form-select mb-3">
+            <!-- Option elements will be dynamically added here via JS -->
+          </select>
+          <div id="biggest-meteorites"></div>
         </div>
       </div>
+
       <div class="col-md-9">
         <div id="bar"></div>
       </div>
     </div>
+
     <div class="row">
       <div class="col-md-12">
-        <div id="bubble" style="width: 100%; height: 200%;"></div>
+        <div id="bubble" style="width: 100%; height: 100%;"></div>
       </div>
     </div>
   </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="./static/js/app.js"></script>
+  <script src="./static/js/app_copy.js"></script>
 
 </body>
 
