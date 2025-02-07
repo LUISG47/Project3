@@ -9,24 +9,35 @@ fetch(url)
 
         console.log(rows);
 
-        // Extract unique years from the dataset (assuming date is at index 14)
-        const years = [...new Set(rows.map(row => {
+        // Count how many meteorites exist for each year
+        const yearCounts = rows.reduce((acc, row) => {
             const date = new Date(row[14]);
-            return date instanceof Date && !isNaN(date) ? date.getFullYear() : null;
-        }).filter(year => year !== null))].sort((a, b) => a - b);
+            const year = date.getFullYear();
+            if (!isNaN(year)) {
+                acc[year] = (acc[year] || 0) + 1;
+            }
+            return acc;
+        }, {});
 
-        console.log('Available Years:', years);
+        // Extract years that have meteorites (exclude years with 0 meteorites)
+        const years = Object.keys(yearCounts).filter(year => yearCounts[year] > 0).sort((a, b) => a - b);
+
+        console.log('Available Years with data:', years);
 
         // Create year dropdown dynamically
         const yearDropdown = document.createElement("select");
         yearDropdown.id = "yearSelector";
+        yearDropdown.classList.add('form-select', 'mb-3');
+
         years.forEach(year => {
             let option = document.createElement("option");
             option.value = year;
             option.textContent = year;
             yearDropdown.appendChild(option);
         });
-        document.body.prepend(yearDropdown);
+
+        const meteoriteCardBody = document.querySelector('.card-body'); // This targets the card body
+        meteoriteCardBody.insertBefore(yearDropdown, meteoriteCardBody.querySelector('#biggest-meteorites'));
 
         // Function to update the chart based on the selected year
         function updateChart(selectedYear) {
