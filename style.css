@@ -2,6 +2,10 @@
 body {
   padding: 0;
   margin: 0;
+  display: flex; /* Enable flexbox layout on body */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 100vh; /* Full height of the viewport */
 }
 
 /* Ensure the html and body fill full height */
@@ -23,4 +27,24 @@ body {
   font-size: 16px;
   margin-top: 10px; /* Esto asegura que tenga un margen en la parte superior */
   width: auto; /* Esto asegurará que tenga el ancho adecuado según el contenido */
+}
+
+/* Centering the card container only */
+.card {
+  background-color: white; /* Card background color */
+  padding: 20px; /* Padding inside the card */
+  border-radius: 8px; /* Rounded corners for the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  width: 300px; /* Fixed width for the card */
+  text-align: left; /* Left align text inside card */
+}
+
+/* Flex container for maintaining layout */
+.grid {
+  display: flex; /* Cambia esto a flexbox */
+  flex-direction: column; /* Disposición en columna */
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente */
+  height: calc(100vh - 50px); /* Ajusta para ocupar toda la altura menos la navbar */
+  /* Puedes quitar la grid-template-columns y el gap si no son necesarios */
 }
