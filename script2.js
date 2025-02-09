@@ -19,7 +19,7 @@
                 const year = row[yearIndex];
                 const meteoriteName = row[nameIndex];
 
-                // Excluir año 2101 y nombre "Northwest Africa 7701"
+                // Exclude year 2101 and name "Northwest Africa 7701"
                 return (year !== null && year !== 2101 && meteoriteName !== "Northwest Africa 7701") 
                        ? parseInt(year) 
                        : null;
@@ -28,7 +28,7 @@
             // Count the number of meteorites per year
             const yearCounts = {};
             years.forEach(year => {
-                if (year >= 1800) { // Solo contar años desde 1800
+                if (year >= 1800) { // Only count years from 1800
                     yearCounts[year] = (yearCounts[year] || 0) + 1;
                 }
             });
@@ -37,12 +37,38 @@
             const sortedYears = Object.keys(yearCounts).map(y => parseInt(y)).sort((a, b) => a - b);
             const counts = sortedYears.map(y => yearCounts[y]);
 
+            // Calculate colors based on counts (from ORANGE to burgundy)
+            const maxCount = Math.max(...counts);
+            const interpolateColor = (start, end, factor) => {
+                const result = start.slice();
+                for (let i = 0; i < start.length; ++i) {
+                    result[i] = Math.round(start[i] + factor * (end[i] - start[i]));
+                }
+                return result;
+            };
+
+            const hexToRgb = hex => {
+                const bigint = parseInt(hex.slice(1), 16);
+                return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+            };
+
+            const startColor = hexToRgb('#ffa500'); // Yellow
+            const endColor = hexToRgb('#800020');   // Burgundy
+
+            const colors = counts.map(count => {
+                const intensity = Math.pow(count / maxCount, 0.27); // Usar un exponente mayor para más cambio
+                const rgb = interpolateColor(startColor, endColor, intensity);
+                return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+            });
+
             // Create the bar chart with Plotly + Tooltips
             const trace = {
                 x: sortedYears,
                 y: counts,
                 type: 'bar',
-                marker: { color: 'orange', opacity: 0.8 }, // Default opacity
+                marker: {
+                    color: colors
+                },
                 hoverinfo: 'x+y', // Show Year + Meteorite Count
                 hovertemplate: '<b>Year:</b> %{x}<br>' + // Display exact year
                                '<b>Meteorite Count:</b> %{y}<extra></extra>', // Show count
