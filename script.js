@@ -25,8 +25,18 @@
         { mass: 7000000, image: "https://images.pexels.com/photos/1655263/pexels-photo-1655263.jpeg", description: "a large freight truck (7,000 kg)" },
         { mass: 8000000, image: "https://images.pexels.com/photos/37021/pexels-photo.jpg", description: "a Boeing 737 (8,000 kg)" },
         { mass: 9000000, image: "https://images.pexels.com/photos/414048/pexels-photo-414048.jpeg", description: "a small yacht (9,000 kg)" },
-        { mass: 10000000, image: "https://images.pexels.com/photos/186034/pexels-photo-186034.jpeg", description: "a large commercial airplane (10,000 kg)" }
-];
+        { mass: 10000000, image: "https://images.pexels.com/photos/186034/pexels-photo-186034.jpeg", description: "a large commercial airplane (10,000 kg)" },
+        { mass: 15000000, image: "https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg", description: "a small cargo ship (15,000 kg)" },
+        { mass: 20000000, image: "https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg", description: "a medium-sized cargo ship (20,000 kg)" },
+        { mass: 25000000, image: "https://images.pexels.com/photos/163186/pexels-photo-163186.jpeg", description: "a large cargo vessel (25,000 kg)" },
+        { mass: 30000000, image: "https://images.pexels.com/photos/163186/pexels-photo-163186.jpeg", description: "a container ship (30,000 kg)" },
+        { mass: 35000000, image: "https://images.pexels.com/photos/6216380/pexels-photo-6216380.jpeg", description: "a very large ship (35,000 kg)" },
+        { mass: 40000000, image: "https://images.pexels.com/photos/6216380/pexels-photo-6216380.jpeg", description: "a large fishing vessel (40,000 kg)" },
+        { mass: 45000000, image: "https://images.pexels.com/photos/8435681/pexels-photo-8435681.jpeg", description: "a large container ship (45,000 kg)" },
+        { mass: 50000000, image: "https://images.pexels.com/photos/8435681/pexels-photo-8435681.jpeg", description: "a large cargo ship (50,000 kg)" },
+        { mass: 55000000, image: "https://images.pexels.com/photos/6082998/pexels-photo-6082998.jpeg", description: "a large freight transport ship (55,000 kg)" },
+        { mass: 60000000, image: "https://images.pexels.com/photos/6082998/pexels-photo-6082998.jpeg", description: "a large oil tanker (60,000 kg)" }
+    ];
 
     // Fetch Meteorite Data from NASA API
     d3.json(url).then(data => {
