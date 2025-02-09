@@ -21,8 +21,6 @@ body {
 #region-selector {
   padding: 5px;
   font-size: 16px;
-  position: absolute; /* Position the dropdown */
-  top: 10px; /* Adjust if you want it lower */
-  left: 10px; /* Position it on the left */
-  z-index: 1000; /* Ensure it’s above everything else */
+  margin-top: 10px; /* Esto asegura que tenga un margen en la parte superior */
+  width: auto; /* Esto asegurará que tenga el ancho adecuado según el contenido */
 }

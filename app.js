@@ -13,7 +13,7 @@ fetch(url)
         const yearCounts = rows.reduce((acc, row) => {
             const date = new Date(row[14]);
             const year = date.getFullYear();
-            if (!isNaN(year)) {
+            if (year >= 1850) { // Only include years from 1850 onwards
                 acc[year] = (acc[year] || 0) + 1;
             }
             return acc;
@@ -29,6 +29,7 @@ fetch(url)
         yearDropdown.id = "yearSelector";
         yearDropdown.classList.add('form-select', 'mb-3');
 
+        // Populate the yearDropdown with years, starting from 1900
         years.forEach(year => {
             let option = document.createElement("option");
             option.value = year;
@@ -36,14 +37,19 @@ fetch(url)
             yearDropdown.appendChild(option);
         });
 
-        const meteoriteCardBody = document.querySelector('.card-body'); // This targets the card body
-        meteoriteCardBody.insertBefore(yearDropdown, meteoriteCardBody.querySelector('#biggest-meteorites'));
+        // Set the default selected year to 1975
+        yearDropdown.value = "1975"; // Ensure 1975 is selected by default
+
+        // Make sure to target the correct card body to insert the yearDropdown
+        const meteoriteCardBody = document.querySelector('.card-body'); // Adjust selector for targeting if necessary
+        const existingBiggestMeteoritesDiv = meteoriteCardBody.querySelector('#biggest-meteorites'); // Target specific element to insert before
+        meteoriteCardBody.insertBefore(yearDropdown, existingBiggestMeteoritesDiv);
 
         // Function to update the chart based on the selected year
         function updateChart(selectedYear) {
             const filteredRows = rows.filter(row => new Date(row[14]).getFullYear() === parseInt(selectedYear));
-
-            // Sort meteorites by mass and get the top 10
+            
+            // Sort meteorites by mass and get the top 25
             const biggestMeteorites = filteredRows
                 .map(row => ({
                     name: row[8], // Meteorite name
@@ -53,10 +59,9 @@ fetch(url)
                 }))
                 .filter(meteorite => !isNaN(meteorite.mass)) // Ensure valid mass values
                 .sort((a, b) => b.mass - a.mass) // Sort by mass (descending order)
-                .slice(0, 25); // Top 10 biggest meteorites
+                .slice(0, 25); // Top 25 biggest meteorites
 
-            console.log('Top 10 biggest meteorites for year', selectedYear, biggestMeteorites);
-
+            console.log('Top 25 biggest meteorites for year', selectedYear, biggestMeteorites);
             // Prepare data for the bubble chart
             const nameValues = biggestMeteorites.map(meteorite => meteorite.name);
             const massValues = biggestMeteorites.map(meteorite => meteorite.mass);
@@ -101,7 +106,7 @@ fetch(url)
             updateChart(this.value);
         });
 
-        // Initialize chart with the first available year
-        updateChart(years[0]);
+        // Initialize chart with the first available year, ensuring default is set to 1975
+        updateChart(yearDropdown.value); // This will use the pre-selected year (1975)
     })
     .catch(error => console.error('Error fetching data:', error));
