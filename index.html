@@ -18,6 +18,14 @@
         .grid { display: grid; grid-template-columns: 1fr ; gap: 20px; }
         select, button { padding: 10px; margin-top: 10px; font-size: 16px; }
         #map, #choropleth-map { height: calc(100vh - 50px); width: 100%; } /* Asegúrate de que el mapa se extienda correctamente */
+        /* Styles for mnameMap specifically */
+        #mnameMap {
+            height: 500px; /* Increased height for better visibility */
+            width: 1200px; /* Set the desired width for the map */
+            margin: 40px auto; /* Center the map horizontally with margin above */
+            border: 2px solid black; /* Add a black border */
+            border-radius: 10px; /* Optional: rounded corners for aesthetics */
+        }
         .hidden { display: none; }
     </style>
 </head>
@@ -26,6 +34,7 @@
         <a href="#" onclick="showSection('dashboard')"><i class="fas fa-chart-bar"></i> Dashboard</a>
         <a href="#" onclick="showSection('map-section')"><i class="fas fa-map"></i> Meteorite Map</a>
         <a href="#" onclick="showSection('choropleth-map-section')"><i class="fas fa-globe"></i> Choropleth Map</a>
+        <a href="#" onclick="showSection('Your Own Meteorite')"><i class="fas fa-star"></i> Your Own Meteorite</a>
     </div>
     
     <div id="dashboard" class="container">
@@ -57,7 +66,7 @@
         </div>
 
         <div class="card">
-            <h3>Meteorite Falls Total Count Per Year</h3>
+            <h3>Total Count of Meteorite Falls by Year</h3>
             <div id="chart" style="height: 100%; width: 100%;"></div>
         </div>
 
@@ -81,13 +90,36 @@
         <h1>Choropleth Map</h1>
         <div id="choropleth-map"></div>
     </div>
+
+
+    <div id="Your Own Meteorite" class="hidden">
+        <h1>Obtain your own meteorite!</h1>
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <input type="number" id="yearInput" placeholder="Enter your birth year" />
+        <button id="submitBtn">Find Your Meteorite!</button>
     
+        <div id="result" class="grid">
+            <div class="card" style="width: 500px; margin: auto;">
+                <h2>Your meteorite is!</h2>
+                <p id="meteoriteName"></p>
+                <p id="meteoriteMass"></p>
+                <p id="meteoriteYear"></p>
+                <p id="meteoriteLocation"></p>
+                <p id="meteoriteCountryCity"></p>
+            </div>
+        </div>
+    
+        <!-- Map container -->
+        <div id="mnameMap" style="height: 500px; margin-top: 40px;"></div> 
+    </div>
+
     <script>
         function showSection(section) {
             // Hide all sections
             document.getElementById('dashboard').classList.add('hidden');
             document.getElementById('map-section').classList.add('hidden');
             document.getElementById('choropleth-map-section').classList.add('hidden');
+            document.getElementById('Your Own Meteorite').classList.add('hidden');
 
             // Show the selected section
             document.getElementById(section).classList.remove('hidden');
@@ -97,6 +129,8 @@
                 loadScripts(['logic.js']); // Load Meteorite Map logic
             } else if (section === 'choropleth-map-section') {
                 loadScripts(['logic2.js']); // Load Choropleth Map logic
+            } else if (section === 'Your Own Meteorite') {
+                loadScripts(['logic_mname.js']); // Load Choropleth Map logic
             }
         }
 

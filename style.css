@@ -16,9 +16,11 @@ body {
 
 /* Set the map to fill the full height of the viewport */
 #map {
-  height: 100vh; /* Full height of the viewport */
-  width: 100%; /* Ensure the map takes the full width */
-  margin: 0; /* Reset margin */
+  height: 400px; /* Adjusted height of the map for better layout */
+  width: 80%; /* Set the desired width for the map to make it responsive */
+  margin: 20px auto; /* Center the map horizontally with some top margin */
+  border: 2px solid black; /* Add a black border */
+  border-radius: 10px; /* Optional: rounded corners for aesthetics */
 }
 
 /* Style for the dropdown menu */
@@ -47,4 +49,21 @@ body {
   justify-content: center; /* Centra verticalmente */
   height: calc(100vh - 50px); /* Ajusta para ocupar toda la altura menos la navbar */
   /* Puedes quitar la grid-template-columns y el gap si no son necesarios */
+}
+
+/* Additional styles for the results area */
+#result {
+  margin-top: 20px; /* Margin above the result section */
+  display: none; /* Initially hide the result */
+}
+
+/* Ensures responsiveness on smaller screens */
+@media (max-width: 768px) {
+    #map {
+        width: 95%; /* Make map full width on smaller screens */
+    }
+
+    .card {
+        width: 90%; /* Ensure card takes up some width on mobile */
+    }
 }

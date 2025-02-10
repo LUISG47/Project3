@@ -3,7 +3,7 @@
     const url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
 
     const weightReferences = [
-        { mass: 1000, image: "https://images.pexels.com/photos/248280/pexels-photo-248280.jpeg", description: "a medium watermelon (1 kg)" },
+        { mass: 1000, image: "https://tinypic.host/images/2025/02/10/30.jpg", description: "a medium watermelon (1 kg)" },
         { mass: 5000, image: "https://images.pexels.com/photos/1586635/pexels-photo-1586635.jpeg", description: "a large dog (5 kg)" },
         { mass: 10000, image: "https://images.pexels.com/photos/4125174/pexels-photo-4125174.jpeg", description: "a small bag of flour (10 kg)" },
         { mass: 50000, image: "https://images.pexels.com/photos/1063605/pexels-photo-1063605.jpg", description: "a large suitcase (50 kg)" },
