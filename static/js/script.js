@@ -15,9 +15,9 @@
         { mass: 600000, image: "https://tinypic.host/images/2025/02/10/heavy.jpg", description: "a draft horse (600 kg)" },
         { mass: 700000, image: "https://tinypic.host/images/2025/02/10/young.jpg", description: "a white rhinoceros (700 kg)" },
         { mass: 800000, image: "https://tinypic.host/images/2025/02/10/beaut.jpg", description: "a large bison (800 kg)" },
-        { mass: 900000, image: "https://tinypic.host/image/SS.2p9TWE", description: "a walrus (900 kg)" },
+        { mass: 900000, image: "https://tinypic.host/images/2025/02/10/SS.jpg", description: "a walrus (900 kg)" },
         { mass: 1000000, image: "https://tinypic.host/image/Hippo-%28Hippopotamus-amphibius%29.2p9pa5", description: "a hippo (1,000 kg)" },
-        { mass: 2000000, image: "https://images.pexels.com/photos/892894/pexels-photo-892894.jpeg", description: "a shipping container (2,000 kg)" },
+        { mass: 2000000, image: "https://tinypic.host/image/Hippo-%28Hippopotamus-amphibius%29.2p9pa5", description: "a shipping container (2,000 kg)" },
         { mass: 3000000, image: "https://images.pexels.com/photos/1519702/pexels-photo-1519702.jpeg", description: "a mid-size truck (3,000 kg)" },
         { mass: 4000000, image: "https://images.pexels.com/photos/1437691/pexels-photo-1437691.jpeg", description: "a bus (4,000 kg)" },
         { mass: 5000000, image: "https://images.pexels.com/photos/943366/pexels-photo-943366.jpeg", description: "a limousine (5,000 kg)" },
@@ -71,7 +71,7 @@
 
                 // Update the comparison element
                 d3.select("#weightComparison")
-                  .html(`Your meteorite is as heavy as: <strong>${reference.description}</strong><br>
+                  .html(`This meteorite is as heavy as: <strong>${reference.description}</strong><br>
                          <img src="${reference.image}" alt="Comparison image" style="width:150px; height:auto;">`);
             }
         }

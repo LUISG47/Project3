@@ -132,11 +132,11 @@
 
             // Load relevant scripts based on section
             if (section === 'map-section') {
-                loadScripts(['logic.js']); // Load Meteorite Map logic
+                loadScripts(['static/js/logic.js']); // Load Meteorite Map logic
             } else if (section === 'choropleth-map-section') {
-                loadScripts(['logic2.js']); // Load Choropleth Map logic
+                loadScripts(['static/js/logic2.js']); // Load Choropleth Map logic
             } else if (section === 'Your Own Meteorite') {
-                loadScripts(['logic_mname.js']); // Load Choropleth Map logic
+                loadScripts(['static/js/logic_mname.js']); // Load Choropleth Map logic
             }
         }
 
@@ -150,7 +150,7 @@
         }
 
         // Initial load: scripts for the dashboard
-        loadScripts(['app.js', 'script.js', 'script2.js']);
+        loadScripts(['static/js/app.js', 'static/js/script.js', 'static/js/script2.js']);
     </script>
     
 </body>
