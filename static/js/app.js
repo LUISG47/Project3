@@ -29,7 +29,7 @@ fetch(url)
         yearDropdown.id = "yearSelector";
         yearDropdown.classList.add('form-select', 'mb-3');
 
-        // Populate the yearDropdown with years, starting from 1900
+        // Populate the yearDropdown with years, starting from 1850
         years.forEach(year => {
             let option = document.createElement("option");
             option.value = year;
@@ -41,9 +41,13 @@ fetch(url)
         yearDropdown.value = "1975"; // Ensure 1975 is selected by default
 
         // Make sure to target the correct card body to insert the yearDropdown
-        const meteoriteCardBody = document.querySelector('.card-body'); // Adjust selector for targeting if necessary
-        const existingBiggestMeteoritesDiv = meteoriteCardBody.querySelector('#biggest-meteorites'); // Target specific element to insert before
-        meteoriteCardBody.insertBefore(yearDropdown, existingBiggestMeteoritesDiv);
+        const meteoriteCardBody = document.querySelector('.card-body');
+
+        // Select the h3 to insert the dropdown after it
+        const header = meteoriteCardBody.querySelector('h3');
+
+        // Insert the dropdown after the header
+        header.insertAdjacentElement('afterend', yearDropdown);
 
         // Function to update the chart based on the selected year
         function updateChart(selectedYear) {
