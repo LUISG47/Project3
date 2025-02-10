@@ -4,12 +4,12 @@
 
     const weightReferences = [
         { mass: 1000, image: "https://tinypic.host/images/2025/02/10/30.jpg", description: "a medium watermelon (1 kg)" },
-        { mass: 5000, image: "https://images.pexels.com/photos/1586635/pexels-photo-1586635.jpeg", description: "a large dog (5 kg)" },
-        { mass: 10000, image: "https://images.pexels.com/photos/4125174/pexels-photo-4125174.jpeg", description: "a small bag of flour (10 kg)" },
-        { mass: 50000, image: "https://images.pexels.com/photos/1063605/pexels-photo-1063605.jpg", description: "a large suitcase (50 kg)" },
-        { mass: 100000, image: "https://images.pexels.com/photos/2041621/pexels-photo-2041621.jpeg", description: "a refrigerator (100 kg)" },
-        { mass: 200000, image: "https://images.pexels.com/photos/2740535/pexels-photo-2740535.jpeg", description: "a compact car (200 kg)" },
-        { mass: 300000, image: "https://images.pexels.com/photos/2272155/pexels-photo-2272155.jpeg", description: "a motorcycle (300 kg)" },
+        { mass: 5000, image: "https://tinypic.host/images/2025/02/10/CAT.jpg", description: "a cat (5 kg)" },
+        { mass: 10000, image: "https://tinypic.host/images/2025/02/10/french-bulldog-dog-sitting-cut-out-2024-09-27-02-32-53-utc1.jpg", description: "a medium dog (10 kg)" },
+        { mass: 50000, image: "https://tinypic.host/images/2025/02/10/washing-machine-2023-11-27-05-33-38-utc-1.jpg", description: "a small washing machine (50 kg)" },
+        { mass: 100000, image: "https://tinypic.host/images/2025/02/10/motor.jpg", description: "a vehicle motor (100 kg)" },
+        { mass: 200000, image: "https://tinypic.host/images/2025/02/10/IMG_6362.jpeg", description: "a motorcycle with side car (200 kg)" },
+        { mass: 300000, image: "https://tinypic.host/images/2025/02/10/snacks-coldrinks-vending-machine.png", description: "a vending machine (300 kg)" },
         { mass: 400000, image: "https://images.pexels.com/photos/1108290/pexels-photo-1108290.jpeg", description: "a full-grown lion (400 kg)" },
         { mass: 500000, image: "https://images.pexels.com/photos/2386530/pexels-photo-2386530.jpeg", description: "a small elephant (500 kg)" },
         { mass: 600000, image: "https://images.pexels.com/photos/1886672/pexels-photo-1886672.jpeg", description: "a heavy armored vehicle (600 kg)" },
@@ -17,7 +17,7 @@
         { mass: 800000, image: "https://images.pexels.com/photos/1048273/pexels-photo-1048273.jpeg", description: "a large bison (800 kg)" },
         { mass: 900000, image: "https://images.pexels.com/photos/2675939/pexels-photo-2675939.jpeg", description: "a walrus (900 kg)" },
         { mass: 1000000, image: "https://images.pexels.com/photos/1628210/pexels-photo-1628210.jpeg", description: "a hippo (1,000 kg)" },
-        { mass: 2000000, image: "https://images.pexels.com/photos/892894/pexels-photo-892894.jpeg", description: "a small car (2,000 kg)" },
+        { mass: 2000000, image: "https://images.pexels.com/photos/892894/pexels-photo-892894.jpeg", description: "a shipping container (2,000 kg)" },
         { mass: 3000000, image: "https://images.pexels.com/photos/1519702/pexels-photo-1519702.jpeg", description: "a mid-size truck (3,000 kg)" },
         { mass: 4000000, image: "https://images.pexels.com/photos/1437691/pexels-photo-1437691.jpeg", description: "a bus (4,000 kg)" },
         { mass: 5000000, image: "https://images.pexels.com/photos/943366/pexels-photo-943366.jpeg", description: "a limousine (5,000 kg)" },
@@ -57,12 +57,12 @@
                 d3.select("#recclass").text(meteorite.recclass || "N/A");
 
                 // Transform year into full date (Year, Month, Day)
-                let date = meteorite.year ? new Date(meteorite.year) : null;
-                if (date && !isNaN(date)) {
-                    let formattedDate = `Year: ${date.getFullYear()}, Month: ${date.getMonth() + 1}, Day: ${date.getDate()}`;
-                    d3.select("#year").text(formattedDate);
+                // Extract the year directly as a numeric value
+                let year = meteorite.year ? new Date(meteorite.year).getFullYear() : null;
+                if (year) {
+                    d3.select("#year").text(`${year}`);
                 } else {
-                    d3.select("#year").text("Date: Unknown");
+                    d3.select("#year").text("Unknown");
                 }
 
                 // Show weight comparison
