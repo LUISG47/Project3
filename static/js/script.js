@@ -1,13 +1,15 @@
-(function() {
+(async function() {
     // NASA API URL
-    const url = "https://data.nasa.gov/resource/gh4g-9sfh.json";
+    const url = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
 
     const weightReferences = [
         { mass: 1000, image: "https://tinypic.host/images/2025/02/10/30.jpg", description: "a medium watermelon (1 kg)" },
         { mass: 5000, image: "https://tinypic.host/images/2025/02/10/CAT.jpg", description: "a cat (5 kg)" },
         { mass: 10000, image: "https://tinypic.host/images/2025/02/10/french-bulldog-dog-sitting-cut-out-2024-09-27-02-32-53-utc1.jpg", description: "a medium dog (10 kg)" },
+        { mass: 25000, image: "https://tinypic.host/images/2025/02/11/silver.jpg", description: "a medium-size suitcase (25 kg)" },
         { mass: 50000, image: "https://tinypic.host/images/2025/02/10/washing-machine-2023-11-27-05-33-38-utc-1.jpg", description: "a small washing machine (50 kg)" },
-        { mass: 100000, image: "https://tinypic.host/images/2025/02/10/motor.jpg", description: "a vehicle motor (100 kg)" },
+        { mass: 75000, image: "https://tinypic.host/images/2025/02/11/yy.jpg", description: "the weight of an average adult man(75 kg)" },
+        { mass: 100000, image: "https://tinypic.host/images/2025/02/11/weber-copia.jpg", description: "an upright piano(100 kg)" },
         { mass: 200000, image: "https://tinypic.host/images/2025/02/10/IMG_6362.jpeg", description: "a motorcycle with side car (200 kg)" },
         { mass: 300000, image: "https://tinypic.host/images/2025/02/10/snacks-coldrinks-vending-machine.png", description: "a vending machine (300 kg)" },
         { mass: 400000, image: "https://tinypic.host/images/2025/02/10/LION.jpg", description: "a full-grown lion (400 kg)" },
@@ -38,41 +40,56 @@
         { mass: 60000000, image: "https://tinypic.host/images/2025/02/11/AER.jpg", description: "a large oil tanker (60,000 kg)" }
     ];
 
-    // Fetch Meteorite Data from NASA API
-    d3.json(url).then(data => {
-        // Populate dropdown with meteorite names
+    try {
+        // Fetch Meteorite Data from NASA API
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const data = await response.json(); // Obtener el JSON
+        console.log(data); // Verifica la estructura
+
+        // Asegúrate de que los meteoritos están en 'data.data'
+        const meteorites = data.data; // Cambia esto si la estructura es diferente
+
+        // Populate dropdown with unique meteorite names
         let dropdown = d3.select("#meteoriteDropdown");
-        data.forEach(d => {
-            dropdown.append("option").attr("value", d.id).text(d.name);
+        let seenNames = new Set(); // Para almacenar nombres únicos
+
+        meteorites.forEach(meteorite => {
+            let fullName = meteorite[8]; // Obtener el nombre completo del meteorito
+            // Utilizar una expresión regular para obtener solo el nombre base
+            let baseName = fullName.replace(/\s+\w+$/, ''); // Elimina cualquier espacio y caracteres que sigan
+
+            if (!seenNames.has(baseName)) { // Comprobar si el nombre base ya se ha visto
+                seenNames.add(baseName); // Añadir el nombre base al conjunto
+                dropdown.append("option")
+                    .attr("value", meteorite[9]) // Usar índice correcto para ID
+                    .text(baseName); // Usar el nombre base
+            }
         });
 
-        // Function to display meteorite info
         function updateInfo(id) {
-            let meteorite = data.find(d => d.id === id);
+            let meteorite = meteorites.find(m => m[9] === id); // Buscar en el array de meteoritos
+            
             if (meteorite) {
-                // Update Name, ID, Mass, Class
-                d3.select("#name").text(meteorite.name || "N/A");
-                d3.select("#id").text(meteorite.id || "N/A");
-                d3.select("#mass").text(meteorite.mass || "Unknown");
-                d3.select("#recclass").text(meteorite.recclass || "N/A");
+                // Actualizar Nombre, ID, Masa, Clase
+                d3.select("#name").text(meteorite[8] || "N/A"); // Nombre desde índice 8
+                d3.select("#id").text(meteorite[9] || "N/A"); // ID desde índice 9
+                d3.select("#mass").text(meteorite[12] || "Unknown"); // Masa desde índice 11
+                d3.select("#recclass").text(meteorite[11] || "N/A"); // Clase desde índice 12
 
-                // Transform year into full date (Year, Month, Day)
-                // Extract the year directly as a numeric value
-                let year = meteorite.year ? new Date(meteorite.year).getFullYear() : null;
-                if (year) {
-                    d3.select("#year").text(`${year}`);
-                } else {
-                    d3.select("#year").text("Unknown");
-                }
+                // Extraer el año directamente como valor numérico
+                let year = meteorite[14] ? new Date(meteorite[14]).getFullYear() : null; // Año desde índice 14
+                d3.select("#year").text(year ? `${year}` : "Unknown");
 
-                // Show weight comparison
-                let mass = parseFloat(meteorite.mass) || 0; // Convert mass to number
+                // Comparación de peso
+                let mass = parseFloat(meteorite[12]) || 0; // Convertir la masa a número desde índice 11
                 let reference = weightReferences.find(ref => mass <= ref.mass) || weightReferences[weightReferences.length - 1];
 
-                // Update the comparison element
+                // Actualizar el elemento de comparación
                 d3.select("#weightComparison")
-                  .html(`This meteorite is as heavy as: <strong>${reference.description}</strong><br>
-                         <img src="${reference.image}" alt="Comparison image" style="width:150px; height:auto;">`);
+                    .html(`This meteorite is as heavy as: <strong>${reference.description}</strong><br>
+                           <img src="${reference.image}" alt="Comparison image" style="width:150px; height:auto;">`);
             }
         }
 
@@ -82,9 +99,11 @@
             updateInfo(selectedId);
         });
 
-        // Initialize with first meteorite
-        if (data.length > 0) {
-            updateInfo(data[0].id);
+        // Initialize with first meteorite if available
+        if (meteorites.length > 0) {
+            updateInfo(meteorites[0][9]); // Usar índice correcto para ID de la primera entrada
         }
-    }).catch(error => console.error("Error fetching meteorite data:", error));
+    } catch (error) {
+        console.error("Error fetching meteorite data:", error);
+    }
 })();
