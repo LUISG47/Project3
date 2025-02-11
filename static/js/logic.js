@@ -89,13 +89,13 @@ function createFeatures(meteoriteData) {
 }
 
 // Variable global para el mapa
-let myMap;
+let myMap2;
 
 // Create the map
 function createMap(meteorites) {
     // Elimina el mapa existente si ya ha sido inicializado
-    if (myMap) {
-        myMap.remove(); // Elimina el mapa existente
+    if (myMap2) {
+        myMap2.remove(); // Elimina el mapa existente
     }
 
     // Create the base layers
@@ -130,12 +130,12 @@ function createMap(meteorites) {
     };
 
     // Ahora crea el mapa solo si no existe
-    myMap = L.map("map", {
+    myMap2 = L.map("map", {
         center: [20.0, 0.0], // Center the map on a global view
         zoom: 2, // Start with a zoom level that shows the world
         layers: [street, meteorites] // Add the initial layers
     });
 
     // Create a layer control
-    L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+    L.control.layers(baseMaps, overlayMaps).addTo(myMap2);
 }

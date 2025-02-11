@@ -40,6 +40,8 @@ function createChoroplethMap(meteoriteData) {
             const latitude = parseFloat(meteorite[15]);
             const longitude = parseFloat(meteorite[16]);
             const mass = parseFloat(meteorite[12]); // Mass in grams
+            const name = meteorite[8]; // Assuming the name is in the 0th index
+            const year = new Date(meteorite[14]).getFullYear(); // Convert to Date object and extract the year
 
             if (!isNaN(latitude) && !isNaN(longitude) && !isNaN(mass)) {
                 L.circleMarker([latitude, longitude], {
@@ -50,7 +52,11 @@ function createChoroplethMap(meteoriteData) {
                     opacity: 1,
                     fillOpacity: 0.8
                 }).addTo(myMap)
-                .bindPopup(`Mass: ${mass} grams`);
+                .bindPopup(`
+                    <strong>Name:</strong> ${name}<br>
+                    <strong>Year:</strong> ${year}<br>
+                    <strong>Mass:</strong> ${mass} grams
+                `);
             }
         }
     });
@@ -61,15 +67,53 @@ function createChoroplethMap(meteoriteData) {
         "Dark Map": darkMap,
         "Light Map": lightMap
     }).addTo(myMap);
+
+    addLegend();
 }
 
 // Function to get color based on meteorite mass (for the legend)
 function getColor(mass) {
-    return mass > 20000 ? '#800026' :
-           mass > 10000  ? '#BD0026' :
-           mass > 5000   ? '#E31A1C' :
-           mass > 1000   ? '#FC4E2A' :
-           mass > 100    ? '#FD8D3C' :
-           mass > 1      ? '#FEB24C' :
-                           '#FFEDA0';
+    return mass > 2000000 ? '#800026' :
+           mass > 1000000  ? '#A62024' :
+           mass > 500000   ? '#BD0026' :
+           mass > 100000   ? '#C82A12' :
+           mass > 10000    ? '#E03A13' :
+           mass > 100      ? '#D74A1A' :
+                           '#F57C20';
+}
+
+
+// Function to add a legend to the map
+function addLegend() {
+    const legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'info legend');
+        
+        // Set styles for the legend
+        div.style.backgroundColor = '#cccccc'; // Set background color to a darker gray
+        div.style.padding = '10px'; // Add some padding
+        div.style.borderRadius = '5px'; // Round the corners
+        div.style.boxShadow = '2px 2px 5px rgba(0, 0, 0, 0.5)'; // Add a slight shadow for depth
+
+        // Adjust position to move the legend up by approximately 5 cm
+        div.style.marginBottom = '75px'; // Increase to move up further
+
+        // Add title to the legend
+        div.innerHTML += '<strong>Mass in grams</strong><br><br>'; // Title with a line break
+
+        const grades = [0, 100, 10000, 100000, 500000, 1000000, 2000000]; // Define the mass ranges
+
+        // Add each color to the legend
+        for (let i = 0; i < grades.length; i++) {
+            const color = getColor(grades[i] + 1); // Get the color for the next range
+            div.innerHTML +=
+                '<i style="background:' + color + '; width: 20px; height: 20px; display: inline-block;"></i> ' + // Use the color from getColor
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    legend.addTo(myMap); // Append the legend to the map
 }
