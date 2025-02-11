@@ -29,9 +29,6 @@ function getRegionByCoordinates(meteorite) {
     if (latitude >= 1 && latitude <= 80 && longitude >= 60 && longitude <= 180) {
         return "Asia"; // Rough bounds for Asia
     }
-    if (latitude >= -35 && latitude <= 37 && longitude >= 25 && longitude <= 60) {
-        return "Africa"; // Approx. bounds for Africa
-    }
     if (latitude >= -60 && latitude <= 15 && longitude >= -80 && longitude <= -35) {
         return "SouthAmerica"; // Rough bounds for South America
     }
