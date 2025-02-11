@@ -102,7 +102,15 @@ function addLegend() {
         // Add title to the legend
         div.innerHTML += '<strong>Mass in grams</strong><br><br>'; // Title with a line break
 
-        const grades = [0, 100, 10000, 100000, 500000, 1000000, 2000000]; // Define the mass ranges
+        const grades = [
+            0,          // No mass
+            100,        // 100 grams
+            10_000,     // 10,000 grams
+            100_000,    // 100,000 grams
+            500_000,    // 500,000 grams
+            1_000_000,  // 1,000,000 grams
+            2_000_000   // 2,000,000 grams
+        ]; // Define the mass ranges
 
         // Add each color to the legend
         for (let i = 0; i < grades.length; i++) {
