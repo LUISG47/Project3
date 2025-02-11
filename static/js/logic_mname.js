@@ -128,6 +128,41 @@
             const marker = L.marker([latitude, longitude]).addTo(mnameMap);
             mnameMap.setView([latitude, longitude], 4); // Set zoom to show continental view
         }
+
+
+        // Add an event listener for the CLEAR button
+    document.getElementById("clearBtn").addEventListener("click", function() {
+        clearSelections();
+    });
+
+    // Function to clear selections and results
+    function clearSelections() {
+        // Clear input fields
+        document.getElementById("nameInput").value = '';
+        document.getElementById("yearInput").value = '';
+
+        // Clear displayed results
+        document.getElementById("meteoriteName").innerText = '';
+        document.getElementById("meteoriteMass").innerText = '';
+        document.getElementById("meteoriteYear").innerText = '';
+        document.getElementById("meteoriteLocation").innerText = '';
+        document.getElementById("meteoriteCountryCity").innerText = '';
+
+        // Hide the result section
+        document.getElementById("result").style.display = "none";
+
+        // Optionally, remove markers from the map
+        mnameMap.eachLayer(function (layer) {
+            if (layer instanceof L.Marker) {
+                mnameMap.removeLayer(layer);
+            }
+        });
+
+        // Reset the map view or any particular state as needed
+        mnameMap.setView([0, 0], 2); // Reset the map to a default location
+    }
+
+
     } catch (error) {
         console.error("Error loading data:", error);
     }
