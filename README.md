@@ -99,7 +99,7 @@ The script that controls this window is on the static/js folder and it's name is
 
 The script that controls all the flow of the visualization is on the main folder and it's called index.html
 
-# ACCESS TO THE DATASET
+### ACCESS TO THE DATASET
 
 We obtained the dataset from this site: https://catalog.data.gov/dataset/meteorite-landings
 
