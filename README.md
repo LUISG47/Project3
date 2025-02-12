@@ -2,7 +2,7 @@
 
 Welcome to our team project for EDX BOOTCAMP
 
-TOPIC: METEORITE LANDINGS
+TOPIC: **METEORITE LANDINGS**
 
 We created a webapp that connects to the NASA Database and gives you different visualizations with the meteorites Data:
 
