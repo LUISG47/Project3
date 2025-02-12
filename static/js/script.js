@@ -13,7 +13,7 @@
         { mass: 200000, image: "https://tinypic.host/images/2025/02/10/IMG_6362.jpeg", description: "a motorcycle with side car (200 kg)" },
         { mass: 300000, image: "https://tinypic.host/images/2025/02/10/snacks-coldrinks-vending-machine.png", description: "a vending machine (300 kg)" },
         { mass: 400000, image: "https://tinypic.host/images/2025/02/10/LION.jpg", description: "a full-grown lion (400 kg)" },
-        { mass: 500000, image: "https://tinypic.host/image/Baby-African-elephant-Addo-Elephant-National-Park.2p9zVM", description: "a small elephant (500 kg)" },
+        { mass: 500000, image: "https://tinypic.host/images/2025/02/12/baby.jpg", description: "a small elephant (500 kg)" },
         { mass: 600000, image: "https://tinypic.host/images/2025/02/10/heavy.jpg", description: "a draft horse (600 kg)" },
         { mass: 700000, image: "https://tinypic.host/images/2025/02/10/young.jpg", description: "a white rhinoceros (700 kg)" },
         { mass: 800000, image: "https://tinypic.host/images/2025/02/10/beaut.jpg", description: "a large bison (800 kg)" },
