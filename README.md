@@ -4,7 +4,7 @@ Welcome to our team project for EDX BOOTCAMP
 
 TOPIC: **METEORITE LANDINGS**
 
-We created a webapp that connects to the NASA Database and gives you different visualizations with the meteorites Data:
+We created a webapp that connects to the NASA Meteorites Database and gives you different visualizations with the meteorites Data:
 
 URL of the webapp: https://luisg47.github.io/Project3/
 
