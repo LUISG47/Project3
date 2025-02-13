@@ -106,4 +106,38 @@ We obtained the dataset from this site: https://catalog.data.gov/dataset/meteori
 And the JSON to which you can point to obtain the data has this URL: https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD
 
 
+## EXTRA.- CREATION OF POSTGRE DATABASE
+
+For this part we created a postgree file in order to be able to make a databse with the csv provided by the dataset 
+
+In this case you need to first create the table of the DB with this instructions:
+
+![Screenshot 2025-02-12 at 10 14 59 p m](https://github.com/user-attachments/assets/59bb9ce2-6952-4e4e-b271-f900a9089522)
+
+
+One you have created your table you can import the csv file in order to manipulate the data
+Please make sure to have this parameters when you import the csv file 
+
+![Screenshot 2025-02-12 at 10 07 30 p m](https://github.com/user-attachments/assets/92972042-51dc-4f52-94ae-828a78fb2690)
+
+
+One the table is created you can check is displayed correctly with a SELECT * FROM meteorite_landings instruction
+You must get this result
+
+![Screenshot 2025-02-12 at 10 07 56 p m](https://github.com/user-attachments/assets/5714d7d2-2d5c-4051-bd34-61d9c0c08bcf)
+
+
+You then can manipulate the dataset like ordering the meteorites by mass, or count from the database which meteorites were found
+That code is also provided in the sql file and you should see this results:
+
+
+![Screenshot 2025-02-12 at 10 09 29 p m](https://github.com/user-attachments/assets/d4364fe8-b6fe-4b63-9408-c7cb9890dfcc)
+
+![Screenshot 2025-02-12 at 10 18 00 p m](https://github.com/user-attachments/assets/f7a959de-6cc2-4e14-9cf7-06c50633edc6)
+
+The files for the database are located on the Postgre Folder
+
+
+
+
 
