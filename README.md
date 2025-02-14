@@ -137,6 +137,8 @@ That code is also provided in the sql file and you should see this results:
 
 The files for the database are located on the Postgre Folder
 
+In the foler you will also find a file named Meteorite_data_cleaning.ipynb we used this file to be able to clean the dataset and be able to display the data as we wanted, but we also added the original csv. That file is called **Meteorite_Landings.csv** so you may use it for your own purposes. The dataset was obtained from the same page of the Json datasets: https://catalog.data.gov/dataset/meteorite-landings
+
 
 
 
