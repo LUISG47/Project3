@@ -1,7 +1,17 @@
+
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+// THIS CODE WILL CREATE THE INFO WINDOW WITH METEORITE CHARACTERISTICS ON THE DASHBOARD SECTION
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
 (async function() {
     // NASA API URL
     const url = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
 
+    //--------------------------------------------------------------------------------
+    // CREATION OF THE IMAGE DATABASE FROM https://www.envato.com
+    // All the images were purchased for the use of the app
+    //--------------------------------------------------------------------------------
     const weightReferences = [
         { mass: 1000, image: "https://tinypic.host/images/2025/02/10/30.jpg", description: "a medium watermelon (1 kg)" },
         { mass: 5000, image: "https://tinypic.host/images/2025/02/10/CAT.jpg", description: "a cat (5 kg)" },
