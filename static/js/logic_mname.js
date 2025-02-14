@@ -1,3 +1,8 @@
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+// THIS CODE IS FOR THE LOCATION OF YOUR OWN METEORITE DEPENDING ON YOUR BIRTH DATE AND NAME
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
 (async function() {
     // NASA dataset URL
     const url = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
@@ -41,7 +46,9 @@
             
             mapInitialized = true; // Set map as initialized
         }
-
+        //-------------------------------------------------------------------------------------------------------------------------// 
+        //  FUNCTION TO FIND THE METEORITE
+        //-------------------------------------------------------------------------------------------------------------------------// 
         function findMeteorite(userName, userYear, rows) {
             let closestMeteorite = null;
             let closestMatchCount = 0;
@@ -73,6 +80,9 @@
             return closestMeteorite;
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------// 
+        //FUNCTION TO COUNT MATCH LETTERS
+        //-------------------------------------------------------------------------------------------------------------------------// 
         function countMatchingLetters(meteoriteName, userName) {
             let normalizedMeteoriteName = meteoriteName.replace(/[^a-z]/g, ''); // Remove non-alpha characters
             const normalizedUserName = userName.replace(/[^a-z]/g, ''); // Remove non-alpha characters
@@ -107,7 +117,9 @@
                 addMarker(meteorite.location.latitude, meteorite.location.longitude); // Add the marker to the map
             });
         }
-
+        //-------------------------------------------------------------------------------------------------------------------------// 
+        //FUNCTION TO GET COUNTRY AND CITY WITH THE API CONNECTION
+        //-------------------------------------------------------------------------------------------------------------------------// 
         async function getCountryCity(lat, long) {
             const response = await fetch(`${geocodeAPI}?q=${lat},${long}&key=${apiKey}`);
             const data = await response.json();
@@ -135,7 +147,9 @@
         clearSelections();
     });
 
+    //--------------------------------------------------------------------------------------------------// 
     // Function to clear selections and results
+    //--------------------------------------------------------------------------------------------------// 
     function clearSelections() {
         // Clear input fields
         document.getElementById("nameInput").value = '';

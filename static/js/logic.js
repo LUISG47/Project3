@@ -1,3 +1,8 @@
+
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+// THIS CODE WILL GIVE YOU THE LAST METEORITES FROM THE DATABASE ON DIFFERENT REGIONS OF THE WORLD
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+
 // Store our API endpoint as queryUrl.
 let queryUrl = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
 
@@ -9,7 +14,9 @@ d3.json(queryUrl).then(function(data) {
     console.error("Error fetching data:", error);
 });
 
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 // Function to determine the region of the meteorite based on coordinates
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 function getRegionByCoordinates(meteorite) {
     const latitude = parseFloat(meteorite[15]);
     const longitude = parseFloat(meteorite[16]);
@@ -40,14 +47,18 @@ function getRegionByCoordinates(meteorite) {
 function createFeatures(meteoriteData) {
     let filteredMeteorites = [];
 
+//------------------------------------------------------------------------------------------------------------------------------------------------// 
 // Define a custom icon using the Leaflet library
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 var meteoriteIcon = new L.Icon({
     iconUrl: 'https://tinypic.host/images/2025/02/14/Met.png',
     iconSize: [40, 40], // size of the icon
     popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 // Function to filter meteorites based on the selected region
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 function filterMeteorites(selectedRegion) {
     let filteredMeteorites = meteoriteData.filter(meteorite => {
         const isFound = meteorite[13] === "Found";
@@ -92,10 +103,12 @@ function filterMeteorites(selectedRegion) {
     filterMeteorites("");
 }
 
-// Variable global para el mapa
+// Global variable for the map of this file
 let myMap2;
 
-// Create the map
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+// MAP CREATION WITH DIFFERENT LAYERS
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 function createMap(meteorites) {
     // Elimina el mapa existente si ya ha sido inicializado
     if (myMap2) {
@@ -133,7 +146,6 @@ function createMap(meteorites) {
         Meteorites: meteorites // Reference to the meteorites layer
     };
 
-    // Ahora crea el mapa solo si no existe
     myMap2 = L.map("map", {
         center: [20.0, 0.0], // Center the map on a global view
         zoom: 2, // Start with a zoom level that shows the world

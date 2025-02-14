@@ -1,3 +1,8 @@
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+// THIS CODE IS FOR THE CHOROPLETH MAP FROM THE MASS OF THE METEORITES
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
 // Store our API endpoint as queryUrl.
 let choroplethQueryUrl = "https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD";
 
@@ -8,6 +13,10 @@ d3.json(choroplethQueryUrl).then(function(data) {
 }).catch(error => {
     console.error("Error fetching data:", error);
 });
+
+//------------------------------------------------------------------------------------------------------------------------------------------------//
+// MAP CREATION WITH DIFFERENT LAYERS
+//------------------------------------------------------------------------------------------------------------------------------------------------//
 
 // Function to create a choropleth map showing individual meteorite masses
 function createChoroplethMap(meteoriteData) {
@@ -82,8 +91,9 @@ function getColor(mass) {
                            '#F57C20';
 }
 
-
+//---------------------------------------------------------------------------------------------------------------------//
 // Function to add a legend to the map
+//---------------------------------------------------------------------------------------------------------------------//
 function addLegend() {
     const legend = L.control({ position: 'bottomright' });
 
