@@ -40,40 +40,48 @@ function getRegionByCoordinates(meteorite) {
 function createFeatures(meteoriteData) {
     let filteredMeteorites = [];
 
-    // Function to filter meteorites based on the selected region
-    function filterMeteorites(selectedRegion) {
-        filteredMeteorites = meteoriteData.filter(meteorite => {
-            const isFound = meteorite[13] === "Found";
-            const isInRegion = getRegionByCoordinates(meteorite);
-            return isFound && (selectedRegion === "" || isInRegion === selectedRegion);
-        })
-        .map(meteorite => {
-            return {
-                name: meteorite[8], // Meteorite name
-                mass: meteorite[11], // Mass in grams 
-                fall: meteorite[12], // Fall status
-                year: new Date(meteorite[14]), // Convert string to Date object for the found date
-                longitude: parseFloat(meteorite[16]), // Longitude
-                latitude: parseFloat(meteorite[15]) // Latitude
-            };
-        })
-        .sort((a, b) => b.year - a.year) // Sort by year (most recent first)
-        .slice(0, 2000); // Limit to the last 2000 meteorites
+// Define a custom icon using the Leaflet library
+var meteoriteIcon = new L.Icon({
+    iconUrl: 'https://tinypic.host/images/2025/02/14/Met.png',
+    iconSize: [40, 40], // size of the icon
+    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
 
-        console.log("Filtered Meteorites:", filteredMeteorites); // Log the filtered meteorites
+// Function to filter meteorites based on the selected region
+function filterMeteorites(selectedRegion) {
+    let filteredMeteorites = meteoriteData.filter(meteorite => {
+        const isFound = meteorite[13] === "Found";
+        const isInRegion = getRegionByCoordinates(meteorite);
+        return isFound && (selectedRegion === "" || isInRegion === selectedRegion);
+    })
+    .map(meteorite => {
+        return {
+            name: meteorite[8], // Meteorite name
+            mass: meteorite[11], // Mass in grams 
+            fall: meteorite[12], // Fall status
+            year: new Date(meteorite[14]), // Convert string to Date object for the found date
+            longitude: parseFloat(meteorite[16]), // Longitude
+            latitude: parseFloat(meteorite[15]) // Latitude
+        };
+    })
+    .sort((a, b) => b.year - a.year) // Sort by year (most recent first)
+    .slice(0, 2000); // Limit to the last 2000 meteorites
 
-        // Create markers for the filtered meteorites
-        let meteoriteMarkers = filteredMeteorites.map(meteorite => {
-            return L.marker([meteorite.latitude, meteorite.longitude])
-                .bindPopup(`<h3>${meteorite.name}</h3><hr><p>Mass: ${meteorite.mass} grams<br>Date Found: ${meteorite.year.toLocaleDateString()}</p>`);
-        });
+    console.log("Filtered Meteorites:", filteredMeteorites); // Log the filtered meteorites
 
-        // Create a layer group made from the meteorite markers array
-        let meteoriteLayerGroup = L.layerGroup(meteoriteMarkers);
-        
-        // Create or update the map with the filtered meteorites
-        createMap(meteoriteLayerGroup);
-    }
+    // Create markers for the filtered meteorites using the custom icon
+    let meteoriteMarkers = filteredMeteorites.map(meteorite => {
+        return L.marker([meteorite.latitude, meteorite.longitude], { icon: meteoriteIcon })
+            .bindPopup(`<h3>${meteorite.name}</h3><hr><p>Mass: ${meteorite.mass} grams<br>Date Found: ${meteorite.year.toLocaleDateString()}</p>`);
+    });
+
+    // Create a layer group made from the meteorite markers array
+    let meteoriteLayerGroup = L.layerGroup(meteoriteMarkers);
+    
+    // Create or update the map with the filtered meteorites
+    createMap(meteoriteLayerGroup);
+}
 
     // Add event listener for the dropdown menu
     document.getElementById('region-selector').addEventListener('change', function() {
@@ -130,7 +138,7 @@ function createMap(meteorites) {
     myMap2 = L.map("map", {
         center: [20.0, 0.0], // Center the map on a global view
         zoom: 2, // Start with a zoom level that shows the world
-        layers: [street, meteorites] // Add the initial layers
+        layers: [lightMap, meteorites] // Add the initial layers
     });
 
     // Create a layer control
